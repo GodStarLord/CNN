@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-3">Welcome to Crypto News Home</h1>
+            <p class="lead">The place where you can get all the latest news about Crypto Currency and Blockchain !!!</p>
+        </div>
+  </div>
+  
+    <h3 class="display-6">
+        Top 10 Crypto Currency's
+        <!--<small class="text-muted">exchange rate with respect to INR</small> -->
+        <small class="text-muted">by Market Capitalization</small>
+    </h3>
+
+
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Symbol</th>
+                <th scope="col">Price</th>
+                <th scope="col">Daily High</th>
+                <th scope="col">Daily Low</th>
+                <th scope="col">Market Capital</th>
+            </tr>
+        </thead>
+        {% for key, item in price.DISPLAY.items %}
+            <tbody>
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ key }}</td>
+                    <td>{{ item.INR.FROMSYMBOL }}</td>
+                    <td>{{ item.INR.PRICE }}</td>
+                    <td>{{ item.INR.HIGHDAY }}</td>
+                    <td>{{ item.INR.LOWDAY }}</td>
+                    <td>{{ item.INR.MKTCAP }}</td>
+                </tr>
+        {% endfor %}
+            </tbody>
+    </table>
+
+    <br/><hr>
+
+    <h3 class="display-6">
+        <small class="text-muted">Currencie's Market Share</small>
+    </h3>
+    <div id="container" style="width: 100%;">
+        <canvas id="pie-chart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <script>
+        var config = {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: {{ market_capital|safe }},
+                    backgroundColor: ['#ff5733', '#054A91', '#3E7CB1', '#81A4CD', '#40798C', '#68C3D4', '#63D471', '#87B37A', '#58A4B0', '#f6d186'],
+                    label: 'Market Capital',
+                    borderColor: '#ffffff',
+                    borderWidth: 1,
+                    borderAlign: 'inner'
+                    }],
+                labels: {{ labels|safe }}
+                },
+            options: { responsive: true }
+        };
+      
+        window.onload = function() {
+            var ctx = document.getElementById('pie-chart').getContext('2d');
+            window.myPie = new Chart(ctx, config);
+        };
+    </script>
+
+    <br/><hr>
+
+    <h3 class="display-6">
+        Top News
+        <small class="text-muted">of the day !!</small>
+    </h3>
+    <br/>
+
+    <div class="container">
+        <div class="row">
+            {% for x in api.Data %}
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img src=" {{ x.imageurl }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        <h5 class="card-title">{{ x.title }}</h5>
+                        <p class="card-text">{{ x.body }}.</p>
+                        <a href="{{ x.url }}" class="btn btn-success">Read story</a>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

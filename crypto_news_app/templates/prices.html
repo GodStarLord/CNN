@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if not_found %}
+        {{ not_found }}
+    {% else %}
+        {% if search.Response %}
+            <h3>Error Generated. Please enter the correct symbol to get the results.</h3>
+        {% else %}
+            {% for key, item in search.DISPLAY.items %}
+                <div class="jumbotron jumbotron-fluid">
+                    <div class="container">
+                        <h1 class="display-4"> {{ key }}</h1><br />
+                        <strong>Name :</strong> {{ key }}<br />
+                        <strong>Symbol :</strong> {{ item.INR.FROMSYMBOL }}<br />
+                        <strong>Price :</strong> {{ item.INR.PRICE }}<br />
+                        <strong>High Day :</strong> {{ item.INR.HIGHDAY }}<br />
+                        <strong>Low Day :</strong> {{ item.INR.LOWDAY }}<br />
+                        <strong>Market Captial :</strong> {{ item.INR.MKTCAP }}<br />
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

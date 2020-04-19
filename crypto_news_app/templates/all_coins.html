@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>All Available Coins in Market: {{ all_data.Data|length }}</h1><br/>
+    
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Coin Name</th>
+                <th scope="col">Symbol</th>
+            </tr>
+        </thead>
+        {% for key, item in all_data.Data.items %}
+            <tbody>
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ item.CoinName }}</td>
+                    <td>{{ item.Symbol }}</td>
+                </tr>
+        {% endfor %}
+            </tbody>
+    </table>
+
+{% endblock %}
