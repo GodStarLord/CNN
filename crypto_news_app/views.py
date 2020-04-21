@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 import json, requests
+from .models import Coins
+from .forms import CoinsForm
 
 
 # Create your views here.
@@ -66,7 +68,23 @@ def allCoin(request):
     
     all_data = requests.get("https://min-api.cryptocompare.com/data/all/coinlist")
     all_data = json.loads(all_data.content)
-    
+
+'''
+    print()
+    print()
+    print('--------------------------------------------------------------------')
+    print('Coin_name\tFull_name')
+
+
+    #Saving all the coins to the db
+    for key, value in all_data['Data'].items():
+        f_name = value['CoinName']
+        c_name = value['Symbol']
+        Coin_obj = Coins(coin_name = c_name, full_name = f_name)
+        Coin_obj.save()
+        print(c_name +'\t'+f_name)    
+   
+'''
 
     return render(request, 'all_coins.html', { 'all_data' : all_data })
 
